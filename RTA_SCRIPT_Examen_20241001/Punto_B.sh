@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Definir el disco manualmente
+# Indico el disco manualmente
 DISCO="/dev/sdc"
 echo "Particiono el disco: $DISCO"
 echo
 
-# Crear las particiones en el disco
+# Creo las particiones en el disco /dev/sdc
 sudo fdisk $DISCO <<EOF
 n
 p
@@ -56,13 +56,13 @@ echo "Mis Particiones: "
 sudo fdisk -l $DISCO
 echo
 
-# Formatear las particiones creadas
+# Formato las particiones creadas   mkfs.ext4
 echo "Formateo las Particiones: "
 for i in $(seq 1 11); do
     sudo mkfs.ext4 ${DISCO}${i} 2>/dev/null
 done
 
-# Montar las particiones en las carpetas correspondientes
+# Montar las particiones en las carpetas 
 echo "Monto las Particiones: "
 sudo mount ${DISCO}1 /Examenes-UTN/alumno_1/parcial_1
 sudo mount ${DISCO}2 /Examenes-UTN/alumno_1/parcial_2
@@ -79,7 +79,7 @@ echo
 echo "Valido montaje: "
 df -h | grep Examenes-UTN
 
-# Agregar las entradas al archivo /etc/fstab para hacer las particiones persistentes en el próximo reinicio
+# Agregar las entradas al archivo /etc/fstab para hacer las particiones persistentes para cuando vuelva a iniciar la maquina
 echo "Actualizando /etc/fstab para hacer las particiones persistentes..."
 sudo bash -c 'cat <<EOL >> /etc/fstab
 /dev/sdc1 /Examenes-UTN/alumno_1/parcial_1 ext4 defaults 0 0
@@ -94,5 +94,5 @@ sudo bash -c 'cat <<EOL >> /etc/fstab
 /dev/sdc11 /Examenes-UTN/profesores ext4 defaults 0 0
 EOL'
 
-echo "Script finalizado correctamente."
+echo "Punto B ok"
 
